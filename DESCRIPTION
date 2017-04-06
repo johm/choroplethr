@@ -24,7 +24,8 @@ Imports:
     R6,
     WDI,
     ggmap,
-    RgoogleMaps
+    RgoogleMaps,
+    tigris
 Suggests:
     testthat,
     choroplethrMaps,
@@ -32,7 +33,7 @@ Suggests:
 Depends:
     R (>= 3.0.0),
     acs
-Collate:
+Collate: 
     'acs.R'
     'choropleth.R'
     'admin1.R'
@@ -47,6 +48,8 @@ Collate:
     'deprecated.R'
     'get_county_demographics.R'
     'get_state_demograhpics.R'
+    'get_tract_demographics.R'
     'startup_messages.R'
     'state.R'
-RoxygenNote: 5.0.1
+    'tracts.R'
+RoxygenNote: 6.0.1

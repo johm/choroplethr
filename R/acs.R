@@ -214,6 +214,42 @@ convert_acs_obj_to_df = function(map, acs.data, column_idx, include_moe)
 
     # clipping is done in the choroplethrZip package, because that's where the region definitions are
     df
+  } else if (map == "tract") {
+    df = data.frame(state  = geography(acs.data)$state,   # integer
+                    county = geography(acs.data)$county,  # integer
+                    tract  = geography(acs.data)$tract,   # character
+                    value  = as.numeric(estimate(acs.data[,column_idx])))
+    
+    if (include_moe)
+    {
+      df$margin.of.error = 1.645 * as.numeric(standard.error(acs.data[, column_idx])) 
+    }    
+    
+    # county fips code must be 5 chars
+    # 2 chars for the state (i.e. leading "0")
+    df$state = as.character(df$state)
+    df$state = paste0("0", df$state)
+    # 3 chars for the county - i.e. leading "0" or leading "00"
+    df$county = as.character(df$county)
+    for (i in 1:nrow(df))
+    {
+      if (nchar(df[i, "county"]) == 1) {
+        df[i, "county"] = paste0("00", df[i, "county"])
+      } else if (nchar(df[i, "county"]) == 2) {
+        df[i, "county"] = paste0("0", df[i, "county"])
+      }
+    } 
+    
+    # now concat with the tract id
+    df$region = paste0(df$state, df$county, df$tract)
+    
+    # only include relevant columns
+    if (include_moe)
+    {
+      df[, c("region", "value", "margin.of.error")] # only return (region, value) pairs
+    } else {
+      df[, c("region", "value")]
+    }
   }
   
 }

@@ -37,4 +37,3 @@ The choroplethr guide to Census data: http://cran.r-project.org/web/packages/cho
 
 A list of all ACS Surveys: http://factfinder.census.gov/faces/affhelp/jsf/pages/metadata.xhtml?lang=en&type=survey&id=survey.en.ACS_ACS
 }
-
