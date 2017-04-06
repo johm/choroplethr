@@ -10,6 +10,18 @@ get_all_tracts = function(state_fips)
            tract  = "*")
 }
 
+#' Get a handful of demographic variables on Census Tracts in a State from the US Census Bureau as a data.frame.
+#' 
+#' The data comes from the American Community Survey (ACS). The variables are: total population, percent White 
+#' not Hispanic, Percent Black or African American not Hispanic, percent Asian not Hispanic,
+#' percent Hispanic all races, per-capita income, median rent and median age.
+#' @param state_fips The FIPS code of the state you want demographics for
+#' @param endyear The end year for the survey
+#' @param span The span of the survey
+#' @references The choroplethr guide to Census data: http://www.arilamstein.com/open-source/choroplethr/mapping-us-census-data/
+#' @references A list of all ACS Surveys: http://factfinder.census.gov/faces/affhelp/jsf/pages/metadata.xhtml?lang=en&type=survey&id=survey.en.ACS_ACS
+#' @importFrom acs geo.make acs.fetch geography estimate
+#' @importFrom utils data
 #' @importFrom acs acs.fetch
 #' @export
 get_tract_demographics = function(state_fips, endyear=2013, span=5)
@@ -42,15 +54,15 @@ get_tract_demographics = function(state_fips, endyear=2013, span=5)
   df_race = df_race[, c("region", "total_population", "percent_white", "percent_black", "percent_asian", "percent_hispanic")]
   
   # per capita income 
-  df_income = get_ca_tract_acs_data("B19301", endyear=endyear, span=span)[[1]]   
+  df_income = get_acs_data("B19301", "tract", endyear=endyear, span=span)[[1]]   
   colnames(df_income)[[2]] = "per_capita_income"
   
   # median rent
-  df_rent = get_ca_tract_acs_data("B25058", endyear=endyear, span=span)[[1]]  
+  df_rent = get_acs_data("B25058", "tract", endyear=endyear, span=span)[[1]]  
   colnames(df_rent)[[2]] = "median_rent"
   
   # median age
-  df_age = get_ca_tract_acs_data("B01002", endyear=endyear, span=span, column_idx=1)[[1]]  
+  df_age = get_acs_data("B01002", "tract", endyear=endyear, span=span, column_idx=1)[[1]]  
   colnames(df_age)[[2]] = "median_age"
   
   df_demographics = merge(df_race        , df_income, all.x=TRUE)
