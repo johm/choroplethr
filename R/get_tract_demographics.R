@@ -1,5 +1,5 @@
 #' @importFrom acs acs.fetch geo.make
-get_all_tracts = function(state_fips)
+get_tracts_in_state = function(state_fips)
 {
   counties = acs.fetch(geography    = geo.make(state = state_fips, county = "*"), 
                        table.number = "B01003",
@@ -26,7 +26,7 @@ get_all_tracts = function(state_fips)
 #' @export
 get_tract_demographics = function(state_fips, endyear=2013, span=5)
 {  
-  all.tracts = get_all_tracts(state_fips)
+  all.tracts = get_tracts_in_state(state_fips)
   race.data = acs::acs.fetch(geography    = all.tracts, 
                              table.number = "B03002", 
                              col.names    = "pretty", 
@@ -34,7 +34,7 @@ get_tract_demographics = function(state_fips, endyear=2013, span=5)
                              span         = span)
   
   # dummy to get proper regions
-  dummy.df = convert_acs_obj_to_df("tract", race.data, 1)
+  dummy.df = convert_acs_obj_to_df("tract", race.data, 1, FALSE)
   
   # convert to a data.frame 
   df_race = data.frame(region                   = dummy.df$region,  
@@ -54,15 +54,15 @@ get_tract_demographics = function(state_fips, endyear=2013, span=5)
   df_race = df_race[, c("region", "total_population", "percent_white", "percent_black", "percent_asian", "percent_hispanic")]
   
   # per capita income 
-  df_income = get_acs_data("B19301", "tract", endyear=endyear, span=span)[[1]]   
+  df_income = get_tract_acs_data(state_fips, "B19301", endyear=endyear, span=span)[[1]]   
   colnames(df_income)[[2]] = "per_capita_income"
   
   # median rent
-  df_rent = get_acs_data("B25058", "tract", endyear=endyear, span=span)[[1]]  
+  df_rent = get_tract_acs_data(state_fips, "B25058", endyear=endyear, span=span)[[1]]  
   colnames(df_rent)[[2]] = "median_rent"
   
   # median age
-  df_age = get_acs_data("B01002", "tract", endyear=endyear, span=span, column_idx=1)[[1]]  
+  df_age = get_tract_acs_data(state_fips, "B01002", endyear=endyear, span=span, column_idx=1)[[1]]  
   colnames(df_age)[[2]] = "median_age"
   
   df_demographics = merge(df_race        , df_income, all.x=TRUE)

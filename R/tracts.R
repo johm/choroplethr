@@ -13,7 +13,7 @@ TractChoropleth = R6Class("TractChoropleth",
       
       if (private$has_invalid_regions)
       {
-        warning("Please see ?ca.tract.regions for a list of mappable regions")
+        warning("Your dataframe contains unmappable regions")
       }
     }
   )
