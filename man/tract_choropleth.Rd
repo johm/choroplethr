@@ -5,7 +5,7 @@
 \title{Create a choropleth of Census Tracts in a particular state.}
 \usage{
 tract_choropleth(df, state_fips, title = "", legend = "", num_colors = 7,
-  reference_map = FALSE)
+  tract_zoom = NULL, county_zoom = NULL, reference_map = FALSE)
 }
 \arguments{
 \item{df}{A data.frame with a column named "region" and a column named "value".}
@@ -18,6 +18,13 @@ tract_choropleth(df, state_fips, title = "", legend = "", num_colors = 7,
 
 \item{num_colors}{The number of colors on the map. A value of 1 
 will use a continuous scale. A value in [2, 9] will use that many colors.}
+
+\item{tract_zoom}{An optional vector of tracts to zoom in on. Elements of this vector must exactly 
+match the names of tracts as they appear in the "region" column of the object returned from "get_tract_map".}
+
+\item{county_zoom}{An optional vector of county FIPS codes to zoom in on. Elements of this 
+vector must exactly match the names of counties as they appear in the "county.fips.numeric" column 
+of the object returned from "get_tract_map".}
 
 \item{reference_map}{If true, render the choropleth over a reference map from Google Maps.}
 }
