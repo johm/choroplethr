@@ -1,3 +1,26 @@
+if (base::getRversion() >= "2.15.1") {
+  utils::globalVariables(c("fortify", "inner_join"))
+}
+
+#' @importFrom tigris tracts
+#' @importFrom dplyr inner_join
+#' @importFrom ggplot2 fortify
+get_tract_map = function(state_fips) 
+{
+  # tigris returns the map as a SpatialPolygonsDataFrame, 
+  tract.map = tracts(state = state_fips, cb = TRUE)
+
+  # but ggplot2 needs it as a dataframe
+  tract.map@data$id = rownames(tract.map@data)
+  tract.map.points  = fortify(tract.map, region="id")
+  tract.map.df      = inner_join(tract.map.points, tract.map@data, by="id")
+
+  # and choroplethr requires a "region" column
+  tract.map.df$region = tract.map.df$GEOID
+  
+  tract.map.df
+}
+
 #' An R6 object for creating choropleths of Census Tracts.
 #' @importFrom tigris tracts
 #' @export
