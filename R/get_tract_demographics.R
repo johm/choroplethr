@@ -84,8 +84,9 @@ get_tract_demographics = function(state_name, county_fips = NULL, endyear=2015, 
   
   df_race = df_race[, c("region", "total_population", "percent_white", "percent_black", "percent_asian", "percent_hispanic")]
   
-  
-
+  # per capita income 
+  df_income = get_tract_acs_data(tracts, "B19301", endyear=endyear, span=span)[[1]]   
+  colnames(df_income)[[2]] = "per_capita_income"
   
   # median rent
   df_rent = get_tract_acs_data(tracts, "B25058", endyear=endyear, span=span)[[1]]  
