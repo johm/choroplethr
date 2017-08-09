@@ -97,7 +97,6 @@ get_tract_demographics = function(state_name, county_fips = NULL, endyear=2015, 
   colnames(df_age)[[2]] = "median_age"
 
   df_demographics = merge(df_race        , df_income, all.x=TRUE)
-  df_demographics = merge(df_race        , df_poverty, all.x=TRUE)
   df_demographics = merge(df_demographics, df_rent  , all.x=TRUE)  
   df_demographics = merge(df_demographics, df_age   , all.x=TRUE)
   
@@ -202,5 +201,6 @@ get_tract_economics = function(state_name, county_fips = NULL, endyear=2015, spa
   # making the region numeric is the easiest way to handle leading 0's
   df_economics$region = as.numeric(df_economics$region)
 
-  df_economics
+#  df_economics
+   df_poverty
 }
