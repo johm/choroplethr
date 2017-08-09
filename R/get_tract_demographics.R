@@ -65,7 +65,7 @@ get_tract_demographics = function(state_name, county_fips = NULL, endyear=2015, 
                              span         = span)
   
   # dummy to get proper regions
-  poverty.dummy.df = convert_acs_obj_to_df("tract", race.data, 1, FALSE)
+  dummy.df = convert_acs_obj_to_df("tract", race.data, 1, FALSE)
   
   # convert to a data.frame 
   df_race = data.frame(region                   = dummy.df$region,  
@@ -179,7 +179,7 @@ get_tract_economics = function(state_name, county_fips = NULL, endyear=2015, spa
 
   df_poverty$percent_in_poverty = round(df_poverty$total_in_poverty / df_poverty$total_population * 100)
   
-
+  df_poverty$region = as.character(df_poverty$region) # no idea why, but it's a factor before this line
 
   # per capita income 
   df_income = get_tract_acs_data(tracts, "B19301", endyear=endyear, span=span)[[1]]   
