@@ -201,6 +201,6 @@ get_tract_economics = function(state_name, county_fips = NULL, endyear=2015, spa
   # making the region numeric is the easiest way to handle leading 0's
   df_economics$region = as.numeric(df_economics$region)
 
-#  df_economics
-   df_poverty
+  df_economics
+
 }
