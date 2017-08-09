@@ -175,7 +175,7 @@ get_tract_economics = function(state_name, county_fips = NULL, endyear=2015, spa
 
   df_poverty = data.frame(region                   = poverty.dummy.df$region,  
                        total_population         = as.numeric(acs::estimate(poverty.data[,1])),
-                       total_in_poverty = as.numeric(acs::estimate(race.data[,2])))
+                       total_in_poverty = as.numeric(acs::estimate(poverty.data[,2])))
 
   df_poverty$percent_in_poverty = round(df_poverty$total_in_poverty / df_poverty$total_population * 100)
   
